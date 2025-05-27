@@ -1,0 +1,92 @@
+from tkinter import *
+import webbrowser
+placeholder = ""
+ph2 = 0
+activities = []
+clicked = 0
+options = [""]
+p1 = 0
+def convert():
+    for i, item in enumerate(activities):
+        if item != "":
+            button = Button(frame, text=item,bg="red", width=20, command=lambda i=item: switch(i))
+            button.grid(row=i, column=0, pady=5)  
+    frame.grid(column=2, row=4)
+def switch(name):
+    for widget in frame.winfo_children():
+        if isinstance(widget, Button):  
+            if widget.cget("text") == name:
+                if widget.cget("bg") == "green":
+                    widget.configure(bg = "red")
+                else:
+                    widget.configure(bg = "green")
+def clear(choice):
+    global activities
+    try:
+        choice = activities.index(choice)
+        activities[choice] = ""
+    except:
+        lbl.configure(fg="red")
+    for widget in frame.winfo_children():
+        if isinstance(widget, Button):  
+            widget.grid_forget()
+    convert()
+    select.set("Remove")
+    dlear() 
+def dlear():
+    drop["menu"].delete(0, "end")
+    options = [item for i, item in enumerate(activities) if activities[i] != ""]
+    select.set("Remove")
+    
+    for name in options:
+        drop["menu"].add_command(label=name, command=lambda n=name: clear(n))
+    
+    drop.grid(column=2, row=7)  # Converted to grid
+    if sum(len(activities[i]) for i in range(len(activities))) == 0:
+        drop.grid_forget()
+def reset():
+    lbl.configure(text="Add any activities you want", fg="black")
+    lbl.grid(column=2, row=0)
+    
+    global entry
+    entry = Entry(root, width=30)
+    entry.grid(column=2, row=1)
+    
+    c = Button(root, text="Input", command=lambda: s7())
+    c.grid(column=2, row=2)
+    
+    dlear()
+    convert()
+def s7():
+    global entry
+    global activities
+    global p1
+    try:
+        if type(entry.get()) == type("e"):
+            activities.append(entry.get())
+            hide_buttons()
+            reset()
+    except:
+        lbl.configure(fg="red")
+        p1 += 1
+def hide_buttons():
+    for widget in root.winfo_children():
+        if isinstance(widget, Button):  
+            widget.grid_forget()
+        if isinstance(widget, Entry):  
+            widget.grid_forget()
+        if isinstance(widget, OptionMenu):
+            widget.grid_forget()    
+root = Tk()
+root.title("Summertip")
+root.geometry('200x300')
+lbl = Label(root, text="What sandwich would you like?")
+select = StringVar()
+select.set("Remove")
+entry = Entry(root, width=30)
+drop = OptionMenu(root, select, *options, command=clear)
+frame = Frame(root)
+frame.grid(column=2, row=3) 
+
+reset()
+root.mainloop()
