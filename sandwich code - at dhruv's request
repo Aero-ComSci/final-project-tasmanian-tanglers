@@ -1,0 +1,253 @@
+from tkinter import *
+import webbrowser
+amountS = 0
+amountB = 0
+amountF = 0
+sandwich = [""]
+confirmed = False
+stage = ""
+beverage = [""]
+fries = [""]
+loop = "loop"
+price = 0
+ketchup = 0
+chup = False
+one = ""
+two = ""
+three = ""
+four = ""
+p1 = 0
+p2 = 0
+p3 = 0
+p4 = 0
+tip = 0
+raidedhouses = 0
+multiple = False
+list = 0
+cs = False
+cb = False
+cf = False
+z = ""
+placeholder = ""
+ph2 = 0
+order = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+prices = [0.25, 5.25, 6.25, 5.75, 1.00, 1.75, 2.25, 1.00, 1.75, 2.25]
+names = ["ketchup packet", "chicken sandwich", "beef sandwich", "tofu sandwich", "small drink", "medium drink", "large drink", "small fries", "medium fries", "large fries"]
+clicked = 0
+options = [""]
+def sand(name):
+    global placeholder
+    global stage
+    stage = str(name)
+    if name == "ketchup":
+        start_check("ket")
+        lbl.configure(text="do you want ketchup?")
+    else:
+        placeholder = "do you want a "+ name + "?"
+        lbl.configure(text=placeholder)
+        start_check("s1")
+def ket():
+    if check == "1":
+        global placeholder
+        lbl.configure(text="how many packets would you like?")
+        placeholder = 0
+        back = Button(root, text="Back", fg="red", command=lambda: (hide_buttons(), reset()))
+        back.grid(column=3, row=1)
+        s6()
+    else:
+        reset()
+def s1():
+    if check == "1":
+        s2()
+    else:
+        reset()
+def s2():
+    global placeholder
+    if stage == "sandwich":
+        lbl.configure(text="What type of sandwich do you want?\nChoose from:\nChicken - $5.25\nBeef - $6.25\nTofu - $5.75")
+    else:
+        lbl.configure(text="Which size would you like?\nSmall - $1.00\nMedium - $1.75\nLarge - $2.25")
+    if stage == "sandwich":
+        placeholder = 1
+    elif stage == "beverage":
+        placeholder = 4
+    else:
+        placeholder = 7
+    back = Button(root, text="Back", fg="red", command=lambda: (hide_buttons(), reset()))
+    back.grid(column=3, row=1)
+    for i in range(3):
+        name = names[placeholder + i]
+        pace = placeholder + i
+        c = Button(root, text=name, command=lambda name=name, pace=pace: s4(name, pace))
+        c.grid(column=i+1, row=2)
+def s3(name):
+    for index, item in enumerate(names):
+        if name == item:
+            return index
+def s4(thrs, place):
+    global placeholder
+    start_check("s5")
+    lbl.configure(text=("is your choice:"+" "+ str(names[s3(thrs)])+"?"))
+    placeholder = place
+def s5():
+    if check == "1":
+        lbl.configure(text="how many would you like?")
+        s6()
+    else:
+        s2()
+def s6():
+    global entry
+    entry = Entry(root, width=30)
+    entry.grid(column=2, row=2)
+    c = Button(root, text="Input", command=lambda: s7() )
+    c.grid(column=2, row=3)
+def s7():
+    global entry
+    global order
+    global p1
+    try:
+        if int(entry.get()) >= 0:
+            order[placeholder] = int(entry.get())+order[placeholder]
+            hide_buttons()
+            reset()
+    except:
+        lbl.configure(fg="red")
+        p1 = p1 + 1
+
+def check2(choice, text):
+    global cs, check
+    if choice == "1":
+        lbl.configure(text="done")
+        check = "1"
+    elif choice == "2":
+        cs = True
+        check = "2"
+    hide_buttons()
+    globals()[text]()
+def hide_buttons():
+    for widget in root.winfo_children():
+        if isinstance(widget, Button):  
+            widget.grid_forget()  
+        if isinstance(widget, Entry):  
+            widget.grid_forget()  
+        if isinstance(widget, OptionMenu):
+            widget.grid_forget()
+def start_check(text):
+    hide_buttons()
+    create_choice_buttons(text)
+def create_choice_buttons(text):
+    yes = Button(root, text="Yes", command=lambda: check2("1", text))
+    no = Button(root, text="No", command=lambda: check2("2", text))
+    yes.grid(column=1, row=2)
+    no.grid(column=3, row=2)
+
+def convert():
+    global od
+    od.grid_forget()
+    od.configure(text = "")
+    if sum(order) != 0:
+        d.grid(column=2, row=6)
+    od.configure(text="")
+    for index, item in enumerate(order):
+        if item != 0:
+            if index == 0 or (index >= 4 and index <= 6):
+                if order[index] >= 1:
+                    od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index] + "s")
+                else:
+                    od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index])
+                   
+            elif index >= 1 and index <= 3:
+                if order[index] >= 1:
+                    od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index] + "es")
+                    
+                else:
+                    od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index])
+                   
+            else:
+                od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index])
+    od.grid(column=2, row=5)
+def checkout():
+    global price
+    if sum(order) !=0:
+        hide_buttons()
+        od.configure(text="")
+        lbl.configure(text="Your receipt:")
+        for index, item in enumerate(order):
+            if item != 0:
+                if index == 0 or (index >= 4 and index <= 6):
+                    if order[index] >= 1:
+                        od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index] + "s"+"-"+ str(order[index] * prices[index]) + "$")
+                    else:
+                        od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index]+"-"+ str(order[index] * prices[index]) + "$")
+                elif index >= 1 and index <= 3:
+                    if order[index] >= 1:
+                        od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index] + "es"+"-"+ str(order[index] * prices[index]) + "$")
+                    else:
+                        od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index]+"-"+ str(order[index] * prices[index]) + "$")
+                else:
+                    od.configure(text=od.cget("text")+"\n"+str(order[index]) +" "+ names[index]+"-"+ str(order[index] * prices[index]) + "$")
+    for index, item in enumerate(order):
+        price = price + item * prices[index]
+    if any(num != 0 for num in order[1:4]) and any(num != 0 for num in order[4:7]) and any(num != 0 for num in order[7:10]):
+        price = price - 1
+        od.configure(text=od.cget("text")+"\n"+"Special SBF discount - 1$ off")
+    od.configure(text=od.cget("text")+"\n"+"tax -"+" "+ str(round(0.08 * price, 2))+"$")
+    od.configure(text=od.cget("text")+"\n"+"total -"+ " " +str(round(1.08 * price, 2))+"$")
+    webbrowser.open("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS0JMsGlpn9uv4QzGkJW96UdzoQj3ufdayCAw&s=&safe=active")
+
+def clear(choice):
+    global order
+    global d
+    try:
+        choice = names.index(choice)
+        order[choice] = 0
+    except:
+        lbl.configure(fg="red")
+    d.grid_forget()
+    convert()
+    od.grid(column=2, row=5)
+    select.set("Clear")
+    dlear() 
+def dlear():
+    drop["menu"].delete(0, "end") 
+    options = [item for i, item in enumerate(names) if order[i] != 0]
+    select.set("Clear")
+    for name in options:
+        drop["menu"].add_command(label=name, command=lambda n=name: clear(n))
+    drop.grid(column=2, row=7)
+    if sum(order) == 0:
+        drop.grid_forget()
+def reset():
+    lbl.configure(text="What would you like to order", fg="black")
+    btn1.grid(column=1, row=1)
+    btn2.grid(column=2, row=1)
+    btn3.grid(column=3, row=1)
+    btn4.grid(column=2, row=2)
+    lbl.grid(column=2, row=0)
+    dlear()
+    convert()
+    
+
+root = Tk()
+root.title("Sandtip")
+root.geometry('450x300')
+
+d = Button(root,text="checkout", command=lambda: checkout())
+lbl = Label(root, text = "What sandwich would you like?")
+lbl.grid()
+btn1 = Button(root, text = "Sandwich" ,
+             fg = "red", command=lambda: sand("sandwich")) 
+btn2 = Button(root, text = "beverage" ,
+             fg = "red", command=lambda: sand("beverage"))
+btn3 = Button(root, text = "fries" ,
+             fg = "red", command=lambda: sand("fries"))
+btn4 = Button(root, text = "ketchup" ,
+             fg = "red", command=lambda: sand("ketchup"))
+od = Label(root, text = "")
+select = StringVar()
+select.set("Clear")
+drop = OptionMenu(root, select, *names, command=clear)
+
+reset()
+
+root.mainloop()
