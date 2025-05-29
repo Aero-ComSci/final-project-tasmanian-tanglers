@@ -11,6 +11,10 @@ Sergey D:
 ![image](https://github.com/user-attachments/assets/4e89b604-73fe-43cc-8a39-e6df24558b34)
 This program is for bored people who want to not only track their summer activities and check them off, but to spice up their boring activities by adding adjectives and places where they can do it. This program adds adjectives and places to the activities inputted by the user. You can also save the code as a .txt file and load other summeractivities.txt files into the program. 
 
+Dhruv K:
+4![image](https://github.com/user-attachments/assets/93633f32-6c9c-4057-8197-0ae0e725dbb8)
+This Code allows us to be able to Manage activities over summer. You can Mark down activities and check off the ones you have done. Your Activities will delete after being checked off allowing them to be able to be more managable.
+
 
 
 ```python def dlear():
@@ -98,3 +102,24 @@ def s7():
             savebutton.grid(column=2, row=8)
             loadbutton.grid(column=2, row=9)
         reset()
+
+
+
+Dhruv Code:
+def convert():
+    for widget in frame.winfo_children():
+        widget.destroy()
+    
+    for i, item in enumerate(activities):
+        if item:
+            button = Button(frame, text=item, bg="red", width=40, command=lambda k=item, g=i: switch(k, g))  # Increased button width
+            button.grid(row=i, column=0, pady=5)
+
+def switch(name, row):
+    for widget in frame.winfo_children():
+        if isinstance(widget, Button):
+            if widget.cget("text") == name:
+                if widget.grid_info().get("row") == row:
+                    widget.configure(bg="green" if widget.cget("bg") == "red" else "red")
+                    if len(activities) > 7:
+                            clear(name)
