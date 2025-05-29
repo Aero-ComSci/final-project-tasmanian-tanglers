@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 
 root = Tk()
@@ -9,6 +10,14 @@ select = StringVar()
 select.set("Remove")
 drop = OptionMenu(root, select, *[""], command=lambda choice: clear(choice))
 drop.grid(column=2, row=7)
+adj = [
+    "Exciting", "Challenging", "Fun", "Creative", "Relaxing", "Adventurous", "Mysterious", "Energetic",
+    "Thrilling", "Inspiring", "Refreshing", "Engaging", "Curious", "Daring", "Lively", "Vibrant",
+    "Joyful", "Dynamic", "Spontaneous", "Stimulating", "Hilarious", "Playful", "Unique", "Motivating",
+    "Mind-blowing", "Extraordinary", "Unpredictable", "Captivating", "Cheerful", "Surprising", "Fascinating",
+    "Delightful", "Radiant", "Eccentric", "Wild", "Bold", "Fantastic", "Magical", "Epic", "Groundbreaking",
+    "Spectacular", "Fearless", "Whimsical", "Epic", "Breathtaking", "Euphoric", "Electric", "Hypnotic", "Legendary", "Scary", "Spooky", "Quick", "Ravenous"]
+
 
 activities = []
 #scrollbar was made with ai explanation
@@ -71,9 +80,13 @@ def reset():
 def s7():
     global entry
     global activities
+    global adj
     if entry.get():
-        activities.append(entry.get())
+        randadj = random.choice(adj)
+        actadj= f"{randadj} {entry.get()}"
+        activities.append(actadj)
         reset()
 
 reset()
 root.mainloop()
+
