@@ -19,7 +19,7 @@ places = [
     "at 3 am in the forest", "at sunrise downtown", "in the afternoon by the seaside",
     "at midnight on top of a mountain", "in the evening inside a cozy café", "at noon at a bustling market"
 ]
-# Lists were AI generated
+# Lists "adj" and "places" were AI-generated
 activities = []
 
 canvas = Canvas(root, width=300, height=300)  # Made the canvas larger
