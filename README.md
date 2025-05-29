@@ -32,7 +32,6 @@ The program asks the user to input activities, and then displays them.  Clicking
             button = Button(frame, text=item, bg="red" if color[i] == "r" else "green", width=20, command=lambda k=item, g=i: switch(k,g))
             button.grid(row=i, column=0, pady=5) ```
 
-
 Sergey D:
 ![image](https://github.com/user-attachments/assets/4e89b604-73fe-43cc-8a39-e6df24558b34)
 This program is for bored people who want to not only track their summer activities and check them off, but to spice up their boring activities by adding adjectives and places where they can do it. This program adds adjectives and places to the activities inputted by the user. You can also save the code as a .txt file and load other summeractivities.txt files into the program. 
