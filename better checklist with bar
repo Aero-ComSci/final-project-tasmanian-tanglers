@@ -48,6 +48,8 @@ def switch(name, row):
             if widget.cget("text") == name:
                 if widget.grid_info().get("row") == row:
                     widget.configure(bg="green" if widget.cget("bg") == "red" else "red")
+                    if len(activities) > 7:
+                            clear(name)
 
 def clear(choice):
     global activities
