@@ -7,6 +7,11 @@ This program is for travelers who wish to have a convenient way to track activit
 The program asks the user to input activities, and then displays them.  Clicking on an activity will change its color.  You also individually remove any activity you do not want.  All activities are accessed via a scrollable interface.
 
 
+Sergey D:
+![image](https://github.com/user-attachments/assets/4e89b604-73fe-43cc-8a39-e6df24558b34)
+This program is for bored people who want to not only track their summer activities and check them off, but to spice up their boring activities by adding adjectives and places where they can do it. This program adds adjectives and places to the activities inputted by the user. You can also save the code as a .txt file and load other summeractivities.txt files into the program. 
+
+
 
 ```python def dlear():
     drop["menu"].delete(0, "end")
@@ -32,11 +37,19 @@ The program asks the user to input activities, and then displays them.  Clicking
             button = Button(frame, text=item, bg="red" if color[i] == "r" else "green", width=20, command=lambda k=item, g=i: switch(k,g))
             button.grid(row=i, column=0, pady=5) ```
 
-Sergey D:
-![image](https://github.com/user-attachments/assets/4e89b604-73fe-43cc-8a39-e6df24558b34)
-This program is for bored people who want to not only track their summer activities and check them off, but to spice up their boring activities by adding adjectives and places where they can do it. This program adds adjectives and places to the activities inputted by the user. You can also save the code as a .txt file and load other summeractivities.txt files into the program. 
 
-```python codecodecode ```
+
+
+
+
+
+
+
+
+
+
+
+```START OF SERGEY'S CODE```
 adj = [
     "Exciting", "Challenging", "Fun", "Creative", "Relaxing", "Adventurous", "Mysterious", "Energetic",
     "Thrilling", "Inspiring", "Refreshing", "Engaging", "Curious", "Daring", "Lively", "Vibrant",
