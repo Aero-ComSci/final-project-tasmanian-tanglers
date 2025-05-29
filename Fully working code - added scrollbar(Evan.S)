@@ -9,7 +9,7 @@ select = StringVar()
 select.set("Remove")
 drop = OptionMenu(root, select, *[""], command=lambda choice: clear(choice))
 drop.grid(column=2, row=7)
-
+color=[]
 activities = []
 #scrollbar was made with ai explanation
 #start
@@ -31,18 +31,25 @@ def convert():
     
     for i, item in enumerate(activities):
         if item:
-            button = Button(frame, text=item, bg="red", width=20, command=lambda k=item, g=i: switch(k,g))
+            button = Button(frame, text=item, bg="red" if color[i] == "r" else "green", width=20, command=lambda k=item, g=i: switch(k,g))
             button.grid(row=i, column=0, pady=5)
+            
+    
 def switch(name,row):
+    global color
     for widget in frame.winfo_children():
         if isinstance(widget, Button):  
             if widget.cget("text") == name:
                 if widget.grid_info().get("row")==row:
-                    widget.configure(bg="green" if widget.cget("bg") == "red" else "red")
-def clear(choice):
+                    color[row] = "g" if widget.cget("bg") == "red" else "r"
+                    widget.configure(bg="green" if widget.cget("bg") == "red" else "red") 
+
+def clear(choice,row):
+    global color
     global activities
     try:
         activities.remove(choice)
+        color.pop(row)
     except ValueError:
         lbl.configure(fg="red")
 
@@ -52,10 +59,10 @@ def dlear():
     drop["menu"].delete(0, "end")
     options = [item for item in activities if item]
     select.set("Remove")
-
-    for name in options:
-        drop["menu"].add_command(label=name, command=lambda n=name: clear(n))
-
+    
+    for i,name in enumerate(options):
+        drop["menu"].add_command(label=name, command=lambda n=name, z=i: clear(n,z))
+        
     drop.grid(column=2, row=7) if options else drop.grid_forget()
 def reset():
     lbl.configure(text="Add any activities you want", fg="black")
@@ -69,10 +76,12 @@ def reset():
     dlear()
     convert()
 def s7():
+    global color
     global entry
     global activities
     if entry.get():
         activities.append(entry.get())
+        color.append("r")
         reset()
 
 reset()
